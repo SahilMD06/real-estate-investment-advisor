@@ -1,0 +1,791 @@
+<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Project Documentation</title><style>
+:root{--ink:#0f172a;--ink2:#475569;--muted:#64748b;--line:#e2e8f0;--bg:#f6f8fb;--card:#fff;--accent:#0f8a65;--navy:#0b1f3a}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+header.cover{background:var(--navy);color:#fff;padding:36px 28px 30px}
+header.cover .wrap{max-width:1080px;margin:auto}
+header.cover .eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#6ee7b7;margin:0 0 6px;font-weight:600}
+header.cover h1{margin:0 0 6px;font-size:26px;font-weight:650;letter-spacing:-.01em}
+header.cover p{margin:0;color:#cbd5e1;font-size:13.5px}
+main{max-width:1080px;margin:auto;padding:24px 16px 48px}
+.summary,.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin-bottom:16px}
+.summary h2,.card h2{font-size:17px;margin:0 0 10px}
+.summary li{margin:5px 0;color:var(--ink2);font-size:13.5px}
+.card p,.card li{font-size:13.5px;color:var(--ink2)}
+h2.part{font-size:20px;margin:30px 0 12px;padding-bottom:6px;border-bottom:2px solid var(--accent)}
+h3.group{font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:28px 0 10px}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 22px}
+nav.toc a{font-size:12px;color:var(--ink2);text-decoration:none;border:1px solid var(--line);background:#fff;border-radius:999px;padding:3px 10px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 22px;margin-top:10px}
+.grid div{font-size:13px;color:var(--ink2)}
+.grid b{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:2px}
+table{border-collapse:collapse;width:100%;font-size:12.5px;margin:6px 0 4px}
+th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{background:#f1f5f9;color:var(--ink);font-weight:600}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+tr.hl td{background:#e7f5ef;font-weight:600}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:4px 0 16px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.kpi .l{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
+.kpi .v{font-size:19px;font-weight:650;margin-top:2px;font-variant-numeric:tabular-nums}
+.kpi .s{font-size:11.5px;color:var(--ink2)}
+.note{border-left:3px solid var(--accent);background:#eef8f4;padding:10px 14px;border-radius:6px;font-size:13px;color:#0b5a43;margin:10px 0}
+.warn{border-left:3px solid #b45309;background:#fff7e6;padding:10px 14px;border-radius:6px;font-size:13px;color:#7a3e05;margin:10px 0}
+.figrow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.figrow>div{min-width:0}
+figure.shot{margin:8px 0 4px}
+figure.shot img{width:100%;max-height:560px;object-fit:contain;object-position:left top;border:1px solid var(--line);border-radius:8px}
+figure.shot figcaption{font-size:12px;color:var(--muted);margin-top:4px}
+.md h1{font-size:22px;margin:4px 0 10px}.md h2{font-size:17px;margin:22px 0 8px}.md h3{font-size:14.5px;margin:16px 0 6px}
+.md h4{font-size:13.5px;margin:14px 0 6px}
+.md p,.md li{font-size:13px;color:var(--ink2)}
+.md code{font-family:"JetBrains Mono",Consolas,monospace;font-size:12px;background:#f1f5f9;padding:1px 4px;border-radius:4px}
+.md pre{background:#0f172a;color:#e2e8f0;padding:10px 12px;border-radius:8px;overflow:auto;font-size:11.5px;white-space:pre-wrap}
+.md pre code{background:none;color:inherit;padding:0}
+.md blockquote{border-left:3px solid var(--accent);margin:8px 0;padding:4px 12px;background:#eef8f4;color:#0b5a43}
+.md img{max-width:100%;max-height:820px;display:block;margin:6px auto}
+footer{max-width:1080px;margin:auto;padding:0 16px 32px;font-size:11.5px;color:var(--muted)}
+@media(max-width:760px){.grid,.kpis{grid-template-columns:1fr 1fr}.figrow{grid-template-columns:1fr}}
+@media print{
+  body{background:#fff}
+  main{padding:14px 0 0;max-width:none}
+  header.cover{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .card,.summary,figure.shot,table,.kpis,.note,.warn{break-inside:avoid}
+  h2.part{break-before:page}
+  h2.part.first{break-before:auto}
+  .page-break{break-before:page}
+  h2,h3,h4{break-after:avoid}
+  nav.toc{display:none}
+  .md pre{white-space:pre-wrap}
+}
+</style></head><body><header class='cover'><div class='wrap'><p class='eyebrow'>PropWise AI</p><h1>Project Documentation</h1><p>Methodology · architecture · data dictionary · deployment · demo · generated 28 Oct 2026 12:43 UTC</p></div></header><main><div class='summary'><h2>Contents</h2><ol style='list-style:none;padding-left:0'><li>1. Methodology</li><li>2. Architecture &amp; data flow</li><li>3. Data dictionary</li><li>4. Deployment</li><li>5. Demo script</li></ol><p style='font-size:13px;color:#475569'>Companion reports: <b>EDA_Report.pdf</b> (20 analyses) and <b>Model_Evaluation_Report.pdf</b> (metrics, charts, MLflow evidence), both in <code>reports/</code>.</p></div><section class='md'><h1>Methodology, Assumptions &amp; Limitations</h1>
+<h2>1. Questions answered</h2>
+<ol>
+<li><strong>Is this listing priced below comparable properties?</strong> A relative-value classification.</li>
+<li><strong>What could it be worth in five years under stated assumptions?</strong> A scenario valuation.</li>
+</ol>
+<p>PropWise does <strong>not</strong> claim to predict investment profitability. The dataset contains no resale prices, rents,
+returns or dates, so profitability cannot be learned or validated.</p>
+<h2>2. Good-value classification</h2>
+<p><strong>Rule (the label):</strong> <code>good_value = 1</code> when ₹/sqft ≤ 1.0 × the training-split median ₹/sqft of the property's
+<strong>City × Property_Type × BHK</strong> cohort.</p>
+<ul>
+<li>630 cohorts, each with at least 165 training listings. If a cohort is ever smaller than 30 rows, the city
+  median is used, then the global median.</li>
+<li>The median threshold gives a balanced label (≈50% positive), so accuracy is meaningful and no
+  resampling is needed.</li>
+<li>Cohort medians are computed on the 70% training split only and then applied to validation (15%), test
+  (15%) and user inputs. The split is random and stratified by city: rows are independent listings with no
+  repeats and no time index, so group- or time-aware validation is not required.</li>
+</ul>
+<p><strong>Models.</strong> Logistic Regression (scaled), Random Forest and XGBoost, each in a pipeline:
+<code>build_model_frame → [impute (+scale) | impute + one-hot] → model</code>. Two input tracks:</p>
+<table>
+<thead>
+<tr>
+<th>Track</th>
+<th>Inputs</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Listing</td>
+<td>Every field incl. asking price</td>
+<td>The app's model; measures rule reproduction</td>
+</tr>
+<tr>
+<td>Attributes only</td>
+<td>Every field except price</td>
+<td>Measures what is learnable without the price</td>
+</tr>
+</tbody>
+</table>
+<p>The cohort median is never an input. Selection: highest validation ROC-AUC on the listing track; ties within
+0.001 are broken by lower Brier score. <strong>Result:</strong> XGBoost, test ROC-AUC 0.9991, F1 0.984, ECE 0.0031.</p>
+<p><strong>How to read this.</strong> The label is arithmetic on price and area, so ≈0.999 AUC means "the model learned the
+rule". It is not skill at picking investments. The attributes-only track reaches ≈0.78 AUC, driven almost entirely
+by area: because price is independent of area here, bigger homes have lower ₹/sqft.</p>
+<p><strong>In the app</strong> the verdict is the exact rule. The model probability is shown only because test calibration
+error is below 0.03, and any disagreement between rule and model is flagged as borderline.</p>
+<p><strong>Explanations.</strong> Factors come from the rule decomposition (gap to cohort median, gap to city median,
+cohort percentile). Global permutation importance shows what the model uses, not what causes prices.
+Context items (construction status, age, transport, amenities) are shown but not used in the verdict.</p>
+<h2>3. Five-year valuation</h2>
+<p><code>Future value = current asking price × (1 + r)^5</code></p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>r</th>
+<th>5-year multiple</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Conservative</td>
+<td>2%</td>
+<td>×1.104</td>
+</tr>
+<tr>
+<td>Baseline</td>
+<td>4%</td>
+<td>×1.217</td>
+</tr>
+<tr>
+<td>Optimistic</td>
+<td>6%</td>
+<td>×1.338</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sources for the defaults:</strong>
+- <a href="https://rbi.org.in/SCRIPTS/BS_PressReleaseDisplay.aspx?prid=63436">RBI All-India House Price Index, Q1 2026-27</a> (released 24 Aug 2026): 3.6% YoY
+- <a href="https://www.nhb.org.in/wp-content/uploads/2026/03/National-Press-Release-RESIDEX-Dec25-DV002.pdf">NHB RESIDEX, Q3 FY2025-26</a>: 50-city HPI at assessment prices, 5.0% YoY</p>
+<p>The baseline sits between these two readings and the other scenarios bracket it by ±2 points. These are recent
+single readings of national indices, not forecasts. City-level readings vary widely (NHB, Dec 2025: −8.9% to
++22.8%), so city-specific rates were deliberately <strong>not</strong> extrapolated over five years. Users can set any rate
+from −5% to 15%.</p>
+<p><strong>Excluded:</strong> stamp duty and registration, brokerage, maintenance, property tax, insurance, rental income,
+vacancy, loan costs, inflation (figures are nominal) and capital-gains tax. A projected gain is not a net return.</p>
+<p><strong>Why not a regression forecast?</strong> A supervised five-year model needs observed future prices. Generating
+labels with a growth formula and then "predicting" them would only re-learn the formula while reporting
+meaningless accuracy. Instead, regressors were trained on <strong>current</strong> price from attributes (the valuation
+signal test). All score R² ≈ 0, and the comparable-median rule scores R² ≈ −0.74. These results are logged
+in MLflow and shown in the app.</p>
+<h2>4. Data handling</h2>
+<ul>
+<li>Validation separates errors (missing columns, empty data, wrong types, non-positive price or size) from
+  warnings (unknown categories, out-of-range values, internal inconsistencies).</li>
+<li>Inconsistent records are kept and flagged rather than deleted, because the wrong field cannot be identified.</li>
+<li>Price-per-sqft outliers (7.9% above the IQR fence) are genuine small homes and are kept. Medians and tree
+  models are robust to them.</li>
+<li>Imputers stay in the pipeline even though there are no missing values, so future data with gaps still works.</li>
+</ul>
+<h2>5. Limitations</h2>
+<ul>
+<li>The data appears synthetic, so no conclusion transfers to real Indian housing markets.</li>
+<li>No time dimension: no trends, seasonality or momentum.</li>
+<li>Locality IDs are anonymised and have about 12 rows each, too few for locality benchmarks.</li>
+<li>Legal title, RERA registration, builder track record, crime, infrastructure pipeline and micro-location are not
+  captured.</li>
+<li>Out-of-range inputs (e.g. &gt; 5,000 sqft) are allowed but flagged as extrapolation.</li>
+</ul>
+<h2>6. Financial disclaimer</h2>
+<p>PropWise AI is an educational analytics project. It is not investment, legal or tax advice, and it makes no
+guarantee of returns. Verify any real property independently and consult a registered adviser before buying.</p></section><section class='md page-break'><h1>Architecture &amp; Data Flow</h1>
+<h2>Overview</h2>
+<p><img alt="Data flow" src="../docs/architecture_dataflow.svg" /></p>
+<h2>Layers</h2>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Module</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Config</td>
+<td><code>src/utils/config.py</code></td>
+<td>Every path, constant and assumption (rates, cohort keys, thresholds, sources). Paths can be overridden by environment variables.</td>
+</tr>
+<tr>
+<td>Data</td>
+<td><code>src/data/validate_data.py</code></td>
+<td>Errors (unusable data) vs warnings (inconsistent records). Returns a <code>ValidationReport</code>.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>src/data/load_data.py</code></td>
+<td>Load, clean (₹/sqft recomputed, amenities parsed, flags added), fingerprint, write parquet.</td>
+</tr>
+<tr>
+<td>Features</td>
+<td><code>src/features/engineering.py</code></td>
+<td><code>build_model_frame()</code> is the <strong>single</strong> transform used by training and inference. <code>CohortStats</code> holds training-only medians with City → global fallback.</td>
+</tr>
+<tr>
+<td>Models</td>
+<td><code>target.py</code></td>
+<td>The documented good-value rule.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>classification.py</code></td>
+<td>Splits, candidate models, the two feature tracks, raw-input pipelines, grouped permutation importance.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>regression.py</code></td>
+<td>Valuation signal test (price from attributes; price never enters as input).</td>
+</tr>
+<tr>
+<td></td>
+<td><code>scenario.py</code></td>
+<td>Compounding scenarios with validated rates.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>inference.py</code></td>
+<td><code>load_bundle</code>, <code>validate_property</code> (blocking errors + out-of-distribution warnings), <code>analyze_property</code>.</td>
+</tr>
+<tr>
+<td>Evaluation</td>
+<td><code>src/evaluation/metrics.py</code></td>
+<td>Classification/regression metrics, ECE, ROC/calibration curves.</td>
+</tr>
+<tr>
+<td>Viz</td>
+<td><code>src/visualization/charts.py</code></td>
+<td>Plotly template and charts shared by the EDA report and the app. Aggregates before plotting.</td>
+</tr>
+<tr>
+<td>UI</td>
+<td><code>src/ui/</code></td>
+<td>Design tokens and CSS, escaped HTML components, cached loaders, session helpers.</td>
+</tr>
+<tr>
+<td>App</td>
+<td><code>app.py</code>, <code>views/*.py</code></td>
+<td>Navigation and six pages. Pages never train models.</td>
+</tr>
+</tbody>
+</table>
+<h2>Key design decisions</h2>
+<ol>
+<li><strong>Feature engineering lives inside the saved pipeline</strong> (<code>FunctionTransformer(build_model_frame)</code>), so
+   the artefact accepts raw-schema rows and replays exactly the training transforms. A test confirms that the
+   batch path and the single-record path give identical probabilities.</li>
+<li><strong>Leakage control.</strong> Cohort medians are fitted on the training split only. The median itself is never a
+   model input. Test data never influences selection.</li>
+<li><strong>Honest targets.</strong> No synthetic future-price labels are created. Five-year values come from scenarios.</li>
+<li><strong>MLflow is optional at runtime.</strong> Training logs to a local SQLite store and registers the champion
+   (<code>@champion</code> alias). The app reads the small <code>models/</code> bundle, whose run IDs link back to MLflow, so it
+   deploys without an MLflow server. <code>scripts/evaluate_models.py</code> cross-checks bundle metrics against MLflow.</li>
+<li><strong>Portable model files.</strong> The XGBoost champion is saved with XGBoost's own <code>save_model</code> JSON format
+   (<code>models/classifier_xgb.json</code>) next to a joblib file holding only the scikit-learn steps
+   (<code>src/models/persistence.py</code>). A pickled booster written on Linux failed to load on Windows
+   ("input stream corrupted") even with identical library versions; the JSON format is XGBoost's
+   supported cross-platform format.</li>
+<li><strong>Safe model logging.</strong> Models are logged with MLflow's <code>skops</code> format, an explicit trusted-types list and
+   <code>code_paths=["src"]</code> so the logged model is self-contained.</li>
+<li><strong>Theming through config first.</strong> <code>.streamlit/config.toml</code> sets colours, fonts, radii, borders and the
+   sidebar. Custom CSS targets only our own <code>pw-*</code> classes plus two stable <code>data-testid</code> hooks.</li>
+<li><strong>Charts never ship raw rows.</strong> Distributions are pre-binned, boxes use precomputed quantiles, and the
+   scatter is sampled, so pages stay fast on 250k rows.</li>
+</ol>
+<h2>Runtime behaviour</h2>
+<ul>
+<li><code>st.cache_data</code> caches the parquet; <code>st.cache_resource</code> caches the model bundle.</li>
+<li>Missing data or models produce an actionable error and stop the page instead of crashing.</li>
+<li>Session state holds recent analyses (max 10) and the comparison list (max 4). Nothing is persisted
+  server-side, and the dashboard labels these as session-only.</li>
+</ul></section><section class='md page-break'><h1>Data Dictionary</h1>
+<p>Source: <code>india_housing_prices.csv</code>: 250,000 rows, 23 columns, no missing values, no duplicate rows.
+Observed values come from profiling (<code>data/processed/data_quality_report.json</code>, <code>reports/eda_stats.json</code>).</p>
+<h2>Raw fields</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Meaning</th>
+<th>Observed values</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ID</td>
+<td>int</td>
+<td>Unique listing identifier</td>
+<td>1 – 250,000</td>
+<td>Unique</td>
+</tr>
+<tr>
+<td>State</td>
+<td>text</td>
+<td>Indian state / UT</td>
+<td>20 values</td>
+<td>Each city maps to exactly one state</td>
+</tr>
+<tr>
+<td>City</td>
+<td>text</td>
+<td>City</td>
+<td>42 values, ≈6,000 rows each</td>
+<td>Model input; cohort key</td>
+</tr>
+<tr>
+<td>Locality</td>
+<td>text</td>
+<td>Anonymised neighbourhood ID</td>
+<td><code>Locality_1</code> … <code>Locality_500</code></td>
+<td>The same ID appears in every city. The real unit is City + Locality (20,999 pairs, ≈12 rows each). Not a model input.</td>
+</tr>
+<tr>
+<td>Property_Type</td>
+<td>text</td>
+<td>Dwelling type</td>
+<td>Apartment, Independent House, Villa (≈⅓ each)</td>
+<td>Cohort key</td>
+</tr>
+<tr>
+<td>BHK</td>
+<td>int</td>
+<td>Bedrooms (bedroom-hall-kitchen count)</td>
+<td>1 – 5, uniform</td>
+<td>Cohort key. Not linked to size (44.5% of 1-BHK listings exceed 3,000 sqft).</td>
+</tr>
+<tr>
+<td>Size_in_SqFt</td>
+<td>int</td>
+<td>Built-up area</td>
+<td>500 – 5,000, uniform</td>
+<td></td>
+</tr>
+<tr>
+<td>Price_in_Lakhs</td>
+<td>float</td>
+<td>Asking price in lakhs (1 lakh = ₹100,000)</td>
+<td>10 – 500, uniform</td>
+<td>Asking, not transaction, price</td>
+</tr>
+<tr>
+<td>Price_per_SqFt</td>
+<td>float</td>
+<td>Price ÷ area in <strong>lakhs/sqft</strong>, rounded to 2 dp</td>
+<td>0.00 – 0.99</td>
+<td>2,534 rows round to 0.00, so it is recomputed in ₹</td>
+</tr>
+<tr>
+<td>Year_Built</td>
+<td>int</td>
+<td>Construction year</td>
+<td>1990 – 2023</td>
+<td></td>
+</tr>
+<tr>
+<td>Furnished_Status</td>
+<td>text</td>
+<td>Furnishing level</td>
+<td>Furnished, Semi-furnished, Unfurnished</td>
+<td></td>
+</tr>
+<tr>
+<td>Floor_No</td>
+<td>int</td>
+<td>Floor of the unit (0 = ground)</td>
+<td>0 – 30</td>
+<td>Above Total_Floors in 46.5% of rows</td>
+</tr>
+<tr>
+<td>Total_Floors</td>
+<td>int</td>
+<td>Floors in the building</td>
+<td>1 – 30</td>
+<td>Villas/houses with &gt; 4 floors: 57.9%</td>
+</tr>
+<tr>
+<td>Age_of_Property</td>
+<td>int</td>
+<td>Years since construction</td>
+<td>2 – 35</td>
+<td>Exactly 2025 − Year_Built, so the reference year is 2025</td>
+</tr>
+<tr>
+<td>Nearby_Schools</td>
+<td>int</td>
+<td>Nearby schools (count or score, not specified)</td>
+<td>1 – 10</td>
+<td></td>
+</tr>
+<tr>
+<td>Nearby_Hospitals</td>
+<td>int</td>
+<td>Nearby hospitals (count or score)</td>
+<td>1 – 10</td>
+<td></td>
+</tr>
+<tr>
+<td>Public_Transport_Accessibility</td>
+<td>text</td>
+<td>Transport access</td>
+<td>Low, Medium, High</td>
+<td></td>
+</tr>
+<tr>
+<td>Parking_Space</td>
+<td>text</td>
+<td>Parking available</td>
+<td>Yes, No</td>
+<td>Number of spaces not recorded</td>
+</tr>
+<tr>
+<td>Security</td>
+<td>text</td>
+<td>Security features present</td>
+<td>Yes, No</td>
+<td></td>
+</tr>
+<tr>
+<td>Amenities</td>
+<td>text</td>
+<td>Comma-separated amenity list</td>
+<td>325 strings = 31 sets of {Clubhouse, Garden, Gym, Playground, Pool}</td>
+<td>Order varies, so it is parsed into flags</td>
+</tr>
+<tr>
+<td>Facing</td>
+<td>text</td>
+<td>Direction the unit faces</td>
+<td>East, North, South, West</td>
+<td></td>
+</tr>
+<tr>
+<td>Owner_Type</td>
+<td>text</td>
+<td>Who lists the property</td>
+<td>Owner, Builder, Broker</td>
+<td></td>
+</tr>
+<tr>
+<td>Availability_Status</td>
+<td>text</td>
+<td>Construction status</td>
+<td>Ready_to_Move, Under_Construction</td>
+<td>45.6% of rows are "under construction" yet built ≤ 2020</td>
+</tr>
+</tbody>
+</table>
+<h2>Engineered fields (<code>clean()</code> / <code>build_model_frame()</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Definition</th>
+<th>Used by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Price_INR</td>
+<td>Price_in_Lakhs × 100,000</td>
+<td>EDA, UI</td>
+</tr>
+<tr>
+<td>Price_per_SqFt_INR</td>
+<td>Price_INR ÷ Size_in_SqFt</td>
+<td>Label, EDA, UI</td>
+</tr>
+<tr>
+<td>has_clubhouse … has_pool</td>
+<td>1 if the amenity is listed</td>
+<td>Models, EDA</td>
+</tr>
+<tr>
+<td>amenity_count</td>
+<td>Number of amenities (0–5)</td>
+<td>Models, UI</td>
+</tr>
+<tr>
+<td>Age_Years</td>
+<td>2025 − Year_Built</td>
+<td>Models</td>
+</tr>
+<tr>
+<td>Size_Band</td>
+<td>&lt;1,000 / 1,000–2,000 / … / 4,000+ sqft</td>
+<td>EDA, UI</td>
+</tr>
+<tr>
+<td>SqFt_per_BHK</td>
+<td>Size ÷ BHK</td>
+<td>Models</td>
+</tr>
+<tr>
+<td>Floor_Position</td>
+<td>Floor_No ÷ Total_Floors (NaN when floor &gt; total)</td>
+<td>Descriptive</td>
+</tr>
+<tr>
+<td>Transport_Score</td>
+<td>Low 0 · Medium 0.5 · High 1</td>
+<td>Descriptive</td>
+</tr>
+<tr>
+<td>Infrastructure_Index</td>
+<td>Mean of scaled schools, hospitals, transport (0–1). Equal weights are an assumption.</td>
+<td>Descriptive only</td>
+</tr>
+<tr>
+<td>log_price, log_size</td>
+<td>Natural logs (make the ₹/sqft ratio linear for Logistic Regression)</td>
+<td>Listing-track models</td>
+</tr>
+<tr>
+<td>flag_floor_above_total, flag_uc_old_build, flag_house_many_floors, n_quality_flags</td>
+<td>Consistency flags</td>
+<td>UI listings table</td>
+</tr>
+</tbody>
+</table>
+<h2>Benchmark &amp; label (fitted on training split only)</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>benchmark_pps</td>
+<td>Training median ₹/sqft of the City × Property_Type × BHK cohort (≥ 30 rows; else City, then global median)</td>
+</tr>
+<tr>
+<td>cohort_n</td>
+<td>Training rows in the cohort (min 165 in the full data)</td>
+</tr>
+<tr>
+<td>good_value</td>
+<td>1 if Price_per_SqFt_INR ≤ benchmark_pps, else 0</td>
+</tr>
+</tbody>
+</table>
+<h2>Fields mentioned in the brief but <strong>not</strong> in the data</h2>
+<p>Crime rate, RERA status, infrastructure score and historical appreciation are absent and were not invented.</p></section><section class='md page-break'><h1>Deployment Guide</h1>
+<h2>1. What the deployed app needs</h2>
+<table>
+<thead>
+<tr>
+<th>Needed at runtime</th>
+<th>Size</th>
+<th>In git?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>app.py</code>, <code>views/</code>, <code>src/</code>, <code>assets/</code>, <code>.streamlit/config.toml</code></td>
+<td>small</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>data/processed/housing_clean.parquet</code></td>
+<td>≈9 MB</td>
+<td><strong>yes</strong> (the app reads this, not the CSV)</td>
+</tr>
+<tr>
+<td><code>data/processed/data_quality_report.json</code></td>
+<td>2 KB</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>models/</code> (classifier.joblib, classifier_xgb.json, cohort_stats.joblib, metadata.json, evaluation.json)</td>
+<td>≈2.9 MB</td>
+<td><strong>yes</strong></td>
+</tr>
+<tr>
+<td><code>requirements.txt</code></td>
+<td>—</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Not committed</strong> (see <code>.gitignore</code>): <code>data/raw/*</code> (the 41 MB CSV and any archive of it; regenerable input),
+<code>mlflow.db</code> and <code>mlartifacts/</code> (≈45 MB local tracking store), <code>.venv/</code>, <code>.streamlit/secrets.toml</code>.
+Everything committed is far below GitHub's 100 MB per-file limit, so Git LFS is not needed.</p>
+<p>If you later need to share the raw CSV or MLflow artefacts, use a GitHub Release asset, Google Drive or an object
+store (S3, GCS, Azure Blob), not the repository.</p>
+<h2>2. GitHub setup (Windows PowerShell)</h2>
+<pre><code class="language-powershell">cd C:\Labmentix\real-estate-investment-advisor
+git init
+git add .
+git status            # confirm: no .venv, no data/raw/*.csv, no mlflow.db
+git commit -m &quot;PropWise AI: real estate investment advisor&quot;
+git branch -M main
+# Create an empty repo on github.com (no README), then:
+git remote add origin https://github.com/&lt;your-username&gt;/real-estate-investment-advisor.git
+git push -u origin main
+</code></pre>
+<h2>3. Streamlit Community Cloud</h2>
+<ol>
+<li>Go to https://share.streamlit.io and sign in with GitHub.</li>
+<li><strong>Create app</strong> → choose the repository, branch <code>main</code>, main file <code>app.py</code>.</li>
+<li><strong>Advanced settings → Python version: 3.13</strong> (the version the bundle was trained with; pickled
+   scikit-learn/XGBoost models are safest on the same Python and library versions).</li>
+<li>Deploy. The first build installs <code>requirements.txt</code> (a few minutes).</li>
+</ol>
+<p>No secrets are required. If you add any (e.g. a remote MLflow URI), put them in the app's <strong>Secrets</strong> panel,
+never in git:</p>
+<pre><code class="language-toml"># .streamlit/secrets.toml  (local only, git-ignored)
+MLFLOW_TRACKING_URI = &quot;https://your-mlflow-server&quot;
+</code></pre>
+<p><code>src/utils/config.py</code> reads paths from environment variables (<code>PROPWISE_MODELS_DIR</code>, <code>PROPWISE_PROCESSED_DATA</code>,
+<code>PROPWISE_RAW_DATA</code>, <code>MLFLOW_TRACKING_URI</code>), so the code never hard-codes machine-specific paths.</p>
+<h3>Other hosts</h3>
+<p>Any host that can run <code>streamlit run app.py --server.port $PORT --server.address 0.0.0.0</code> works (Render,
+Railway, Hugging Face Spaces with the Streamlit SDK, a VM). Install with <code>pip install -r requirements.txt</code>.</p>
+<h2>4. MLflow</h2>
+<ul>
+<li><strong>Local (default):</strong> training writes to <code>sqlite:///mlflow.db</code> with artefacts in <code>mlartifacts/</code>.
+  Browse with:
+  <code>bash
+  mlflow ui --backend-store-uri sqlite:///mlflow.db --port 5000</code>
+  Experiments: <code>propwise-investment-classification</code>, <code>propwise-valuation-signal-test</code>.
+  Registered model: <code>propwise-investment-classifier</code> with alias <code>@champion</code>.</li>
+<li><strong>Load the registered model elsewhere:</strong>
+  <code>python
+  import mlflow
+  mlflow.set_tracking_uri("sqlite:///mlflow.db")
+  model = mlflow.pyfunc.load_model("models:/propwise-investment-classifier@champion")</code></li>
+<li><strong>Remote server:</strong> set <code>MLFLOW_TRACKING_URI</code> before <code>python -m scripts.train_models</code>.</li>
+<li><strong>In the cloud app:</strong> MLflow is not installed or needed. The app reads <code>models/</code>, and Model Insights
+  shows the run IDs and registry version recorded at training time.</li>
+</ul>
+<h2>5. Updating the model</h2>
+<pre><code class="language-bash">python -m scripts.run_pipeline   # retrain, re-register (new version → @champion), rewrite models/
+pytest
+git add models data/processed reports
+git commit -m &quot;Retrain models&quot; &amp;&amp; git push   # Streamlit Cloud redeploys automatically
+</code></pre>
+<h2>6. Common failures</h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Dataset unavailable … housing_clean.parquet"</td>
+<td>Parquet not committed or path changed</td>
+<td>Run <code>python -m scripts.prepare_data</code> and commit <code>data/processed/</code></td>
+</tr>
+<tr>
+<td>"Models unavailable … Run scripts.train_models"</td>
+<td><code>models/</code> missing</td>
+<td>Train locally and commit <code>models/</code></td>
+</tr>
+<tr>
+<td><code>ModuleNotFoundError: src</code></td>
+<td>App started from another folder</td>
+<td>Run <code>streamlit run app.py</code> from the project root (Cloud does this automatically)</td>
+</tr>
+<tr>
+<td>Unpickling / <code>AttributeError</code> loading <code>classifier.joblib</code></td>
+<td>Different scikit-learn/XGBoost version</td>
+<td>Keep <code>requirements.txt</code> pins; retrain after upgrading libraries</td>
+</tr>
+<tr>
+<td><code>XGBoostError: input stream corrupted</code></td>
+<td>An XGBoost model pickled on another OS (old bundle format)</td>
+<td>Pull the current <code>models/</code> folder (XGBoost stored as <code>classifier_xgb.json</code>) or run <code>python -m scripts.train_models</code></td>
+</tr>
+<tr>
+<td>Build fails on <code>pandas==3.1.0</code></td>
+<td>Python &lt; 3.11 selected</td>
+<td>Choose Python 3.13 in Advanced settings</td>
+</tr>
+<tr>
+<td><code>Activate.ps1 cannot be loaded</code> (Windows)</td>
+<td>Execution policy</td>
+<td><code>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code></td>
+</tr>
+<tr>
+<td><code>streamlit</code> not recognised</td>
+<td>venv not active</td>
+<td>Activate <code>.venv</code> or run <code>python -m streamlit run app.py</code></td>
+</tr>
+<tr>
+<td>MLflow "untrusted types" error when logging</td>
+<td>skops safety check</td>
+<td>The trusted list lives in <code>scripts/train_models.py</code> (<code>SKOPS_TRUSTED</code>); only add types you created</td>
+</tr>
+<tr>
+<td>Port 8501 busy</td>
+<td>Another Streamlit running</td>
+<td><code>streamlit run app.py --server.port 8502</code></td>
+</tr>
+<tr>
+<td>App slow on first load</td>
+<td>Parquet + bundle loading</td>
+<td>Cached after the first load (<code>st.cache_data</code> / <code>st.cache_resource</code>)</td>
+</tr>
+</tbody>
+</table></section><section class='md page-break'><h1>Demo Script (6–8 minutes)</h1>
+<p><strong>Setup:</strong> app running (<code>streamlit run app.py</code>), MLflow UI in a second tab
+(<code>mlflow ui --backend-store-uri sqlite:///mlflow.db</code>), <code>reports/EDA_Report.pdf</code> open in a third.</p>
+<hr />
+<h3>1. Hook — 30 s · <em>Executive Dashboard</em></h3>
+<blockquote>
+<p>"PropWise AI answers two questions an investor asks about a listing: is it priced well against similar homes,
+and what might it be worth in five years? The rule I followed was that every number has to be traceable,
+either to the data or to a cited source."</p>
+</blockquote>
+<p>Point at the KPI row: 250,000 listings, 42 cities, 630 comparable cohorts.</p>
+<h3>2. The finding that shaped everything — 75 s · <em>Dashboard → EDA report</em></h3>
+<blockquote>
+<p>"Before modelling, I profiled the data. It's clean, with no missing values or duplicates, but price is unrelated
+to size, location, amenities or transport. Every correlation is below 0.01."</p>
+</blockquote>
+<p>Show EDA §4 (size vs price, r ≈ 0) and §10 (top localities match a random shuffle).</p>
+<blockquote>
+<p>"I also found internal contradictions: 46% of rows have a floor number above the building height. So the
+data looks synthetic. Instead of hiding that, I designed the product around it."</p>
+</blockquote>
+<h3>3. Analyze a property — 90 s · <em>Investment Analyzer</em></h3>
+<p>Use the defaults (3 BHK apartment, Bangalore, 1,800 sqft, ₹140 L). Click <strong>Analyze property</strong>.</p>
+<blockquote>
+<p>"The verdict is relative value: ₹7,778 per sqft against a comparable median of ₹9,537, which is 18% below.
+Comparables are the same city, type and BHK, using medians from the training split only."</p>
+</blockquote>
+<ul>
+<li><strong>Value vs comparables:</strong> the listing's position in the cohort distribution. The "implied price" is labelled
+  as <em>not a valuation</em> because it scores R² −0.74.</li>
+<li><strong>Five-year scenarios:</strong> 2 / 4 / 6% bracket the latest RBI (3.6%) and NHB (5.0%) indices. Open the
+  assumptions panel to show they are editable. Point out the list of excluded costs.</li>
+<li><strong>Factors and Limitations:</strong> rule-based factors, context items kept out of the verdict, and plain-language caveats.</li>
+</ul>
+<p>Then change the size to 9,000 sqft and show the <strong>extrapolation warning</strong>.</p>
+<h3>4. Compare — 45 s · <em>Property Comparison</em></h3>
+<p>Add IDs 1, 2, 3. Show the highlighted table and the shared growth slider.</p>
+<blockquote>
+<p>"There's deliberately no 'winner'. With identical growth rates, projected gains just scale with price. The real
+difference is each listing against its own comparables."</p>
+</blockquote>
+<h3>5. Model honesty — 90 s · <em>Model Insights</em></h3>
+<blockquote>
+<p>"I trained Logistic Regression, Random Forest and XGBoost, tracked in MLflow. The champion hits 0.999 AUC,
+and I state openly that this is expected: the label is a rule on price and area, so the model is reproducing
+it. To show what is actually learnable, the attributes-only track removes price and lands at 0.78, almost
+entirely from area."</p>
+</blockquote>
+<p>Show calibration (ECE 0.003, which is why a probability is displayed), the confusion matrix and permutation importance.
+Switch to the <strong>Valuation signal test</strong>: four regressors at R² ≈ 0.</p>
+<blockquote>
+<p>"That's why there is no fake 'predicted price' and no fabricated five-year labels."</p>
+</blockquote>
+<p>Switch to the MLflow UI tab: two experiments, 11 runs, registered model <code>@champion</code>.</p>
+<h3>6. Engineering — 45 s</h3>
+<ul>
+<li>One <code>build_model_frame()</code> inside the saved pipeline, so training and inference match (a test enforces it).</li>
+<li>65 pytest tests, including headless runs of every page.</li>
+<li><code>scripts.run_pipeline</code> reproduces everything from the raw CSV. The deployed app needs only a ≈2.9 MB model bundle, stored in portable formats.</li>
+</ul>
+<h3>7. Close — 20 s</h3>
+<blockquote>
+<p>"With real transaction histories, the same architecture becomes a genuine forecaster: swap the scenario
+engine for a time-validated model and the cohort rule for realised returns. Until then, PropWise is
+honest about what the data can and can't say."</p>
+</blockquote>
+<hr />
+<p><strong>Likely questions</strong>
+- <em>Why not predict the five-year price with XGBoost?</em> There are no future prices to learn from or validate against.
+- <em>Isn't 0.999 AUC suspicious?</em> Yes, which is why it's labelled as rule reproduction and paired with the attributes-only track.
+- <em>Why the median as the threshold?</em> It's robust to the ₹/sqft right tail and yields balanced classes.
+- <em>Why 4% baseline?</em> It sits between RBI 3.6% and NHB 5.0%, and users can change it.</p></section></main><footer>PropWise AI is an educational tool. It is not investment advice.</footer></body></html>

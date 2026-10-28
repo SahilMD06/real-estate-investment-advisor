@@ -271,10 +271,10 @@ def correlation_heatmap(df: pd.DataFrame, cols: list[str]) -> go.Figure:
                    diverging=True, zmid=0, height=520)
 
 
-def bhk_by_city(df: pd.DataFrame) -> go.Figure:
+def bhk_by_city(df: pd.DataFrame, height: int = 900) -> go.Figure:
     tab = pd.crosstab(df["City"], df["BHK"], normalize="index") * 100
     tab = tab.sort_index()
-    fig = heatmap(tab, "BHK mix by city (% of each city's listings)", "% of city", fmt=".0f", height=900)
+    fig = heatmap(tab, "BHK mix by city (% of each city's listings)", "% of city", fmt=".0f", height=height)
     fig.update_xaxes(title="BHK")
     return fig
 

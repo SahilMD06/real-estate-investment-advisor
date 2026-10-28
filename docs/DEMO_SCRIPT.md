@@ -1,7 +1,7 @@
 # Demo Script (6–8 minutes)
 
 **Setup:** app running (`streamlit run app.py`), MLflow UI in a second tab
-(`mlflow ui --backend-store-uri sqlite:///mlflow.db`), `reports/eda_report.html` open in a third.
+(`mlflow ui --backend-store-uri sqlite:///mlflow.db`), `reports/EDA_Report.pdf` open in a third.
 
 ---
 

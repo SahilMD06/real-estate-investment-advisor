@@ -77,7 +77,7 @@ Railway, Hugging Face Spaces with the Streamlit SDK, a VM). Install with `pip in
 ```bash
 python -m scripts.run_pipeline   # retrain, re-register (new version → @champion), rewrite models/
 pytest
-git add models data/processed docs/MODEL_REPORT.md reports
+git add models data/processed reports
 git commit -m "Retrain models" && git push   # Streamlit Cloud redeploys automatically
 ```
 

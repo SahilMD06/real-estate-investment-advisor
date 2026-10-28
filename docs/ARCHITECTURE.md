@@ -9,7 +9,7 @@ flowchart LR
     B -->|warnings logged| C[load_data.clean]
     C --> D[(data/processed/housing_clean.parquet)]
     C --> Q[(data_quality_report.json)]
-    D --> E[scripts.run_eda] --> R[reports/eda_report.html<br/>EDA_FINDINGS.md]
+    D --> E[scripts.run_eda] --> R[reports/EDA_Report.pdf<br/>+ eda_report.html]
     D --> S[make_splits 70/15/15<br/>stratified by city]
     S -->|train only| CS[CohortStats.fit]
     CS --> L[make_label: good_value]
@@ -19,6 +19,8 @@ flowchart LR
     P -->|champion| REG[Model Registry @champion]
     P --> BUN[(models/ bundle:<br/>classifier.joblib + classifier_xgb.json,<br/>cohort_stats.joblib, metadata.json, evaluation.json)]
     CS --> BUN
+    BUN --> EV[scripts.evaluate_models] --> MR[reports/Model_Evaluation_Report.pdf]
+    M -.->|cross-check| EV
     BUN --> APP[Streamlit app]
     D --> APP
     APP --> INF[inference.analyze_property]

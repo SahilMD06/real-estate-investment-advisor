@@ -2,13 +2,14 @@
 
 Usage (from the project root):
     python -m scripts.run_pipeline
-Steps: validate + clean → EDA report → train + track (MLflow) → evaluation report.
+Steps: validate + clean → EDA report → train + track (MLflow) → evaluation report
+→ documentation PDF. Reports are written to reports/ as PDF (plus interactive HTML).
 """
 from __future__ import annotations
 
 import sys
 
-from scripts import evaluate_models, prepare_data, run_eda, train_models
+from scripts import build_docs_pdf, evaluate_models, prepare_data, run_eda, train_models
 from src.utils.logging import get_logger
 
 log = get_logger("pipeline")
@@ -16,7 +17,8 @@ log = get_logger("pipeline")
 
 def main() -> int:
     for name, step in [("prepare_data", prepare_data.main), ("run_eda", run_eda.main),
-                       ("train_models", lambda: train_models.main([])), ("evaluate_models", evaluate_models.main)]:
+                       ("train_models", lambda: train_models.main([])), ("evaluate_models", evaluate_models.main),
+                       ("build_docs_pdf", build_docs_pdf.main)]:
         log.info("── %s", name)
         code = step()
         if code:

@@ -5,7 +5,7 @@ Usage (from the project root):
 
 Outputs
     reports/eda_report.html     self-contained interactive report (20 analyses)
-    reports/EDA_FINDINGS.md     the same narrative as Markdown
+    reports/EDA_Report.pdf      the same report as a print-ready A4 PDF
     reports/eda_stats.json      the numbers quoted in the narrative
 Every number in the narrative is computed here — nothing is hard-coded.
 """
@@ -14,14 +14,15 @@ from __future__ import annotations
 import html
 import json
 import sys
-from datetime import datetime, timezone
 
 import numpy as np
 import pandas as pd
 import plotly.io as pio
 
 from src.data.load_data import load_processed
-from src.utils.config import APP_NAME, REPORTS_DIR
+from src.reporting.pdf import PdfToolMissing, html_to_pdf
+from src.reporting.template import FigureEmbedder, page
+from src.utils.config import REPORTS_DIR
 from src.utils.logging import get_logger
 from src.visualization import charts as ch
 
@@ -142,7 +143,7 @@ def build_sections(df: pd.DataFrame) -> tuple[list[dict], dict]:
         dict(id="city-price", group="Location", title="7. Average property price by city",
              fig=ch.bar_mean_ci(df, "City", "Price_in_Lakhs", "Average asking price by city", "₹ lakhs",
                                 order=df.groupby("City")["Price_in_Lakhs"].mean().sort_values(ascending=False).index.tolist(),
-                                horizontal=True, height=980, fmt=",.1f"),
+                                horizontal=True, height=820, fmt=",.1f"),
              what="Mean asking price per city with 95% confidence intervals.",
              finding=f"{s['city_top']} is highest (₹{s['city_top_v']} L) and {s['city_bottom']} lowest (₹{s['city_bottom_v']} L): a {s['city_spread']}% spread, within sampling noise.",
              why="Mumbai and Gaya at the same average price is not realistic. Use city benchmarks only as within-dataset references.",
@@ -154,7 +155,7 @@ def build_sections(df: pd.DataFrame) -> tuple[list[dict], dict]:
              why="Locality-level statistics would be over-fitted, so the models use city-level cohorts instead.",
              limits="Small samples per locality, and locality IDs are anonymised."),
         dict(id="bhk-city", group="Location", title="9. BHK distribution across cities",
-             fig=ch.bhk_by_city(df),
+             fig=ch.bhk_by_city(df, height=780),
              what="Share of each city's listings by BHK.",
              finding=f"Every cell lies between {s['bhk_share_min']}% and {s['bhk_share_max']}%: each city has a near-even 20% split across 1–5 BHK.",
              why="Unit mix normally differs by city (more 1–2 BHK in metros). An even mix means cohorts are well balanced, at least 165 training listings each.",
@@ -243,67 +244,39 @@ SUMMARY = [
 
 
 def render_html(sections: list[dict], stats: dict) -> str:
-    css = """
-    :root{--ink:#0f172a;--ink2:#475569;--muted:#64748b;--line:#e2e8f0;--bg:#f6f8fb;--card:#fff;--accent:#0f8a65;--navy:#0b1f3a}
-    *{box-sizing:border-box}body{margin:0;font-family:Inter,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
-    header{background:var(--navy);color:#fff;padding:40px 24px 32px}header .wrap{max-width:1080px;margin:auto}
-    header h1{margin:0 0 6px;font-size:26px;font-weight:650;letter-spacing:-.01em}header p{margin:0;color:#cbd5e1;font-size:14px}
-    main{max-width:1080px;margin:auto;padding:24px 16px 64px}
-    .summary{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin-bottom:24px}
-    .summary h2{font-size:16px;margin:0 0 8px}.summary li{margin:6px 0;color:var(--ink2);font-size:14px}
-    nav{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 24px}nav a{font-size:12px;color:var(--ink2);text-decoration:none;border:1px solid var(--line);background:#fff;border-radius:999px;padding:4px 10px}
-    nav a:hover{border-color:var(--accent);color:var(--accent)}
-    h3.group{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:32px 0 12px}
-    section.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin-bottom:16px}
-    section.card h2{font-size:17px;margin:0 0 12px}
-    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 24px;margin-top:12px}
-    .grid div{font-size:13.5px;color:var(--ink2)}.grid b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:2px}
-    @media(max-width:720px){.grid{grid-template-columns:1fr}}
-    footer{max-width:1080px;margin:auto;padding:0 16px 40px;font-size:12px;color:var(--muted)}
-    """
-    parts = [f"<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>"
-             f"<title>{APP_NAME} EDA Report</title><style>{css}</style></head><body>",
-             f"<header><div class='wrap'><h1>{APP_NAME} · Exploratory Data Analysis</h1>"
-             f"<p>india_housing_prices.csv · {stats['n']:,} listings · generated "
-             f"{datetime.now(timezone.utc):%d %b %Y %H:%M} UTC</p></div></header><main>",
-             "<div class='summary'><h2>Key takeaways</h2><ul>" + "".join(f"<li>{html.escape(x)}</li>" for x in SUMMARY) + "</ul></div>",
-             "<nav>" + "".join(f"<a href='#{s['id']}'>{html.escape(s['title'].split('. ', 1)[1])}</a>" for s in sections) + "</nav>"]
+    embed = FigureEmbedder()
+    parts = ["<div class='summary'><h2>Key takeaways</h2><ul>"
+             + "".join(f"<li>{html.escape(x)}</li>" for x in SUMMARY) + "</ul></div>",
+             "<nav class='toc'>" + "".join(f"<a href='#{s['id']}'>{html.escape(s['title'].split('. ', 1)[1])}</a>"
+                                          for s in sections) + "</nav>"]
     group = None
-    for i, sec in enumerate(sections):
+    for sec in sections:
         if sec["group"] != group:
             group = sec["group"]
             parts.append(f"<h3 class='group'>{html.escape(group)}</h3>")
-        fig_html = pio.to_html(sec["fig"], full_html=False, include_plotlyjs=(i == 0),
-                               config={"displaylogo": False, "responsive": True})
         parts.append(
-            f"<section class='card' id='{sec['id']}'><h2>{html.escape(sec['title'])}</h2>{fig_html}"
+            f"<section class='card' id='{sec['id']}'><h2>{html.escape(sec['title'])}</h2>{embed(sec['fig'])}"
             f"<div class='grid'><div><b>What it shows</b>{html.escape(sec['what'])}</div>"
             f"<div><b>Main finding</b>{html.escape(sec['finding'])}</div>"
             f"<div><b>Why it matters to an investor</b>{html.escape(sec['why'])}</div>"
             f"<div><b>Limitations</b>{html.escape(sec['limits'])}</div></div></section>")
-    parts.append("</main><footer>Correlation is not causation. Findings describe this dataset only and are not investment advice.</footer></body></html>")
-    return "".join(parts)
-
-
-def render_md(sections: list[dict]) -> str:
-    lines = ["# EDA Findings — india_housing_prices.csv", "", "Generated by `python -m scripts.run_eda`. "
-             "Interactive charts: `reports/eda_report.html`.", "", "## Key takeaways", ""]
-    lines += [f"- {x}" for x in SUMMARY]
-    for sec in sections:
-        lines += ["", f"## {sec['title']}", "", f"**What it shows.** {sec['what']}", "",
-                  f"**Main finding.** {sec['finding']}", "", f"**Why it matters.** {sec['why']}", "",
-                  f"**Limitations.** {sec['limits']}"]
-    return "\n".join(lines) + "\n"
+    return page("Exploratory Data Analysis", f"india_housing_prices.csv · {stats['n']:,} listings · 20 analyses",
+                "".join(parts), footer="Correlation is not causation. Findings describe this dataset only "
+                                       "and are not investment advice.")
 
 
 def main() -> int:
     df = load_processed()
     sections, stats = build_sections(df)
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
-    (REPORTS_DIR / "eda_report.html").write_text(render_html(sections, stats), encoding="utf-8")
-    (REPORTS_DIR / "EDA_FINDINGS.md").write_text(render_md(sections), encoding="utf-8")
+    html_path = REPORTS_DIR / "eda_report.html"
+    html_path.write_text(render_html(sections, stats), encoding="utf-8")
     (REPORTS_DIR / "eda_stats.json").write_text(json.dumps(stats, indent=2, default=str), encoding="utf-8")
-    log.info("Wrote %d analyses to %s", len(sections), REPORTS_DIR)
+    log.info("Wrote %d analyses to %s", len(sections), html_path)
+    try:
+        html_to_pdf(html_path, REPORTS_DIR / "EDA_Report.pdf", "PropWise AI · Exploratory Data Analysis")
+    except PdfToolMissing as exc:
+        log.warning("PDF not built: %s", exc)
     return 0
 
 
