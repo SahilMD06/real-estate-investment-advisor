@@ -1,0 +1,45 @@
+{
+  "n_rows": 250000,
+  "n_columns": 23,
+  "ok": true,
+  "errors": [],
+  "warnings": [
+    "46.5% of all rows have floor above building height",
+    "45.6% of all rows are 'under construction' but built <= 2020",
+    "57.9% of all rows are villas/houses in buildings over 4 floors",
+    "44.5% of 1-BHK listings exceed 3,000 sqft",
+    "11.2% of 5-BHK listings are under 1,000 sqft"
+  ],
+  "stats": {
+    "missing_values": {},
+    "duplicate_rows": 0,
+    "duplicate_rows_excluding_id": 0,
+    "duplicate_ids": 0,
+    "out_of_documented_range": {},
+    "unknown_categories": {},
+    "cardinality": {
+      "State": 20,
+      "City": 42,
+      "Locality": 500,
+      "Amenities": 325
+    },
+    "cities_in_multiple_states": 0,
+    "city_locality_pairs": 20999,
+    "price_per_sqft_matches_price_over_size": 1.0,
+    "price_per_sqft_rounded_to_zero": 2534,
+    "age_reference_years": {
+      "2025": 250000
+    },
+    "inconsistency_shares": {
+      "floor_above_total_floors": 0.4652,
+      "under_construction_built_2020_or_earlier": 0.4558,
+      "house_or_villa_over_4_floors": 0.579,
+      "one_bhk_listings_over_3000_sqft": 0.4452,
+      "five_bhk_listings_under_1000_sqft": 0.112
+    },
+    "pps_iqr_upper_fence_inr": 32764.2,
+    "pps_iqr_outliers": 19723
+  },
+  "raw_sha256": "b0032196fcf336799daf45f7fed16199ff62cf23717e6dee76911467fb1d6367",
+  "processed_rows": 250000
+}

@@ -1,0 +1,180 @@
+{
+  "created_at": "2026-10-28T10:40:17+00:00",
+  "versions": {
+    "python": "3.13.7",
+    "scikit-learn": "1.9.1",
+    "xgboost": "3.4.1",
+    "pandas": "3.1.0",
+    "mlflow": "3.17.2",
+    "numpy": "2.5.4"
+  },
+  "dataset": {
+    "sha256": "b0032196fcf336799daf45f7fed16199ff62cf23717e6dee76911467fb1d6367",
+    "rows": 250000,
+    "splits": {
+      "train": 175000,
+      "val": 37500,
+      "test": 37500
+    },
+    "sample_run": false,
+    "reference_year": 2025
+  },
+  "label": {
+    "name": "good_value",
+    "definition": "Rupees per sqft at or below 1 x the training-split median of its City x Property_Type x BHK cohort (fallback City, then global, when a cohort has < 30 rows).",
+    "positive_rates": {
+      "train": 0.5008,
+      "val": 0.49490666666666666,
+      "test": 0.50048
+    }
+  },
+  "classifier": {
+    "champion": "listing/xgboost",
+    "selection": {
+      "champion": "listing/xgboost",
+      "criterion": "highest validation ROC-AUC on the listing track; ties within 0.001 broken by lower validation Brier score",
+      "contenders": [
+        "listing/logistic_regression",
+        "listing/xgboost"
+      ],
+      "best_attributes_only": "attributes_only/logistic_regression",
+      "label_rates": {
+        "train": 0.5008,
+        "val": 0.49490666666666666,
+        "test": 0.50048
+      }
+    },
+    "run_id": "319810ac995d4a71b62082420803faa2",
+    "registry": {
+      "name": "propwise-investment-classifier",
+      "version": "1",
+      "alias": "champion"
+    },
+    "show_probability": true,
+    "test_ece": 0.003147384044161689,
+    "max_display_ece": 0.03,
+    "input_columns": [
+      "State",
+      "City",
+      "Locality",
+      "Property_Type",
+      "BHK",
+      "Size_in_SqFt",
+      "Price_in_Lakhs",
+      "Year_Built",
+      "Furnished_Status",
+      "Floor_No",
+      "Total_Floors",
+      "Nearby_Schools",
+      "Nearby_Hospitals",
+      "Public_Transport_Accessibility",
+      "Parking_Space",
+      "Security",
+      "Amenities",
+      "Facing",
+      "Owner_Type",
+      "Availability_Status"
+    ]
+  },
+  "regression": {
+    "best_learned_model": "random_forest",
+    "experiment": "propwise-valuation-signal-test"
+  },
+  "cohorts": {
+    "keys": [
+      "City",
+      "Property_Type",
+      "BHK"
+    ],
+    "n": 630,
+    "min_train_size": 165,
+    "median_train_size": 288
+  },
+  "domain": {
+    "city_state": {
+      "Ahmedabad": "Gujarat",
+      "Amritsar": "Punjab",
+      "Bangalore": "Karnataka",
+      "Bhopal": "Madhya Pradesh",
+      "Bhubaneswar": "Odisha",
+      "Bilaspur": "Chhattisgarh",
+      "Chennai": "Tamil Nadu",
+      "Coimbatore": "Tamil Nadu",
+      "Cuttack": "Odisha",
+      "Dehradun": "Uttarakhand",
+      "Durgapur": "West Bengal",
+      "Dwarka": "Delhi",
+      "Faridabad": "Haryana",
+      "Gaya": "Bihar",
+      "Gurgaon": "Haryana",
+      "Guwahati": "Assam",
+      "Haridwar": "Uttarakhand",
+      "Hyderabad": "Telangana",
+      "Indore": "Madhya Pradesh",
+      "Jaipur": "Rajasthan",
+      "Jamshedpur": "Jharkhand",
+      "Jodhpur": "Rajasthan",
+      "Kochi": "Kerala",
+      "Kolkata": "West Bengal",
+      "Lucknow": "Uttar Pradesh",
+      "Ludhiana": "Punjab",
+      "Mangalore": "Karnataka",
+      "Mumbai": "Maharashtra",
+      "Mysore": "Karnataka",
+      "Nagpur": "Maharashtra",
+      "New Delhi": "Delhi",
+      "Noida": "Uttar Pradesh",
+      "Patna": "Bihar",
+      "Pune": "Maharashtra",
+      "Raipur": "Chhattisgarh",
+      "Ranchi": "Jharkhand",
+      "Silchar": "Assam",
+      "Surat": "Gujarat",
+      "Trivandrum": "Kerala",
+      "Vijayawada": "Andhra Pradesh",
+      "Vishakhapatnam": "Andhra Pradesh",
+      "Warangal": "Telangana"
+    },
+    "numeric_ranges": {
+      "BHK": [
+        1,
+        5
+      ],
+      "Size_in_SqFt": [
+        500,
+        5000
+      ],
+      "Price_in_Lakhs": [
+        10,
+        500
+      ],
+      "Year_Built": [
+        1990,
+        2023
+      ],
+      "Floor_No": [
+        0,
+        30
+      ],
+      "Total_Floors": [
+        1,
+        30
+      ],
+      "Nearby_Schools": [
+        1,
+        10
+      ],
+      "Nearby_Hospitals": [
+        1,
+        10
+      ]
+    }
+  },
+  "mlflow": {
+    "tracking_uri": "sqlite:///mlflow.db (local)",
+    "experiments": [
+      "propwise-investment-classification",
+      "propwise-valuation-signal-test"
+    ]
+  }
+}

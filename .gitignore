@@ -1,0 +1,28 @@
+# Environments
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Secrets
+.streamlit/secrets.toml
+.env
+
+# Large / regenerable data
+data/raw/*
+!data/raw/.gitkeep
+
+# MLflow local store (regenerate with scripts.train_models)
+mlflow.db
+mlartifacts/
+mlruns/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log

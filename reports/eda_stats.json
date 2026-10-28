@@ -1,0 +1,85 @@
+{
+  "n": 250000,
+  "price_min": 10.0,
+  "price_med": 253.87,
+  "price_max": 500.0,
+  "price_skew": 0.008,
+  "size_min": 500,
+  "size_med": 2747,
+  "size_max": 5000,
+  "one_bhk_large_share": 44.5,
+  "size_skew": 0.001,
+  "pps_med": 9245,
+  "pps_skew": 2.32,
+  "pps_by_type": {
+    "Apartment": 9245.0,
+    "Independent House": 9305.0,
+    "Villa": 9190.0
+  },
+  "r_size_price": -0.0025,
+  "r_size_pps": -0.615,
+  "pps_fence": 32764,
+  "pps_outliers": 19723,
+  "pps_out_small_share": 0.74,
+  "state_top": "Karnataka",
+  "state_bottom": "Punjab",
+  "state_spread": 2.5,
+  "city_top": "Bangalore",
+  "city_bottom": "Cuttack",
+  "city_top_v": 258.5,
+  "city_bottom_v": 250.8,
+  "city_spread": 3.1,
+  "loc_pairs": 20999,
+  "loc_n_median": 12,
+  "loc_age_iqr": [
+    15.0,
+    22.0
+  ],
+  "bhk_share_min": 18.6,
+  "bhk_share_max": 22.0,
+  "top_loc": "Durgapur / Locality_164",
+  "top_loc_v": 33025,
+  "loc_pps_sd": 2775,
+  "loc_pps_sd_perm": 2756,
+  "corr_top_pairs": {
+    "Price_per_SqFt_INR ~ Size_in_SqFt": -0.615,
+    "Price_in_Lakhs ~ Price_per_SqFt_INR": 0.556
+  },
+  "r_schools": -0.0001,
+  "r_hospitals": -0.0001,
+  "furnish_spread": 0.25,
+  "furnish_means": {
+    "Furnished": 254.4,
+    "Semi-furnished": 254.3,
+    "Unfurnished": 255.0
+  },
+  "facing_spread": 0.89,
+  "facing_means": {
+    "East": 13023.7,
+    "North": 13024.9,
+    "South": 13044.1,
+    "West": 13140.0
+  },
+  "parking_spread": 0.12,
+  "parking_means": {
+    "No": 254.4,
+    "Yes": 254.7
+  },
+  "transport_spread": 0.45,
+  "transport_means": {
+    "High": 13027.2,
+    "Low": 13085.5,
+    "Medium": 13062.2
+  },
+  "owner_shares": {
+    "Broker": 33.4,
+    "Owner": 33.3,
+    "Builder": 33.3
+  },
+  "avail_shares": {
+    "Under_Construction": 50.0,
+    "Ready_to_Move": 50.0
+  },
+  "uc_old_share": 91.1,
+  "amen_spread": 0.67
+}

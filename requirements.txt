@@ -1,0 +1,10 @@
+# Runtime dependencies for the Streamlit app (used by Streamlit Community Cloud).
+# Versions are the exact ones the models were trained and tested with.
+streamlit==1.66.1
+pandas==3.1.0
+numpy==2.5.4
+scikit-learn==1.9.1
+xgboost==3.4.1
+plotly==7.1.0
+pyarrow==25.0.1
+joblib==1.6.0
