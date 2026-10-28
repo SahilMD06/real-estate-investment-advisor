@@ -29,7 +29,7 @@ returns or dates, so profitability cannot be learned or validated.
 | Attributes only | Every field except price | Measures what is learnable without the price |
 
 The cohort median is never an input. Selection: highest validation ROC-AUC on the listing track; ties within
-0.001 are broken by lower Brier score. **Result:** XGBoost, test ROC-AUC 0.9991, F1 0.984, ECE 0.0034.
+0.001 are broken by lower Brier score. **Result:** XGBoost, test ROC-AUC 0.9991, F1 0.984, ECE 0.0031.
 
 **How to read this.** The label is arithmetic on price and area, so ≈0.999 AUC means "the model learned the
 rule". It is not skill at picking investments. The attributes-only track reaches ≈0.78 AUC, driven almost entirely

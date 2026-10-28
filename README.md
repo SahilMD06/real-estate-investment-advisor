@@ -1,6 +1,9 @@
 # PropWise AI — Real Estate Investment Advisor
 
 **Evidence-first property value analytics for Indian residential real estate.**
+
+**Live demo:** https://propwise-ai.streamlit.app · **Source:** https://github.com/SahilMD06/real-estate-investment-advisor
+
 PropWise AI tells you whether a listing is priced below comparable properties and what it could be worth in five
 years under transparent, sourced growth scenarios. Every number traces back to the dataset or a cited source.
 
